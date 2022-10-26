@@ -31,7 +31,6 @@ export class App extends Component {
       if (images.length === 0) {
         toast.error('No search images!', { autoClose: 2000 });
         return this.setState({
-          isLoading: false,
           isLoadMore: false,
           images: [],
         });
@@ -40,7 +39,6 @@ export class App extends Component {
       if (prevState.textSearch !== textSearch) {
         this.setState({
           images,
-          isLoading: false,
           isLoadMore: true,
         });
         return page === MAX_PAGE && this.setState({ isLoadMore: false });
@@ -48,12 +46,12 @@ export class App extends Component {
 
       this.setState({
         images: [...prevState.images, ...images],
-        isLoading: false,
       });
       return page === MAX_PAGE && this.setState({ isLoadMore: false });
     } catch (error) {
-      this.setState({ isLoading: false });
       console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
     }
   }
 
